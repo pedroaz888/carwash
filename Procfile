@@ -1,4 +1,4 @@
-web: gunicorn carwash.wsgi --log_file -
+web: gunicorn carwash.wsgi --log-file -
 
 
 
