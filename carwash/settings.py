@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'carwash.wsgi.application'
     }
 }
  """
-""" DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'carwash',
@@ -83,11 +83,11 @@ WSGI_APPLICATION = 'carwash.wsgi.application'
         'HOST': 'localhost',
         
     }
-}  """
+} 
 
 
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
@@ -97,7 +97,7 @@ DATABASES = {
         'PORT': '7662',
         
     }
-} 
+}  """
 
 
 
