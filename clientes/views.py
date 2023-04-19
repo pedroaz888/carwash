@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.shortcuts import redirect, get_object_or_404
 
-
+@csrf_exempt
 def clientes(request):
     if request.method == "GET":
         clientes_list = Cliente.objects.all()
@@ -43,7 +43,7 @@ def clientes(request):
             carro.save()
 
         return HttpResponse('teste')
-    
+@csrf_exempt
 def att_cliente(request):
     id_cliente = request.POST.get('id_cliente')
 
@@ -79,6 +79,7 @@ def update_carro(request, id):
     carro.save()
     return HttpResponse("Dados alterados com sucesso")
 
+@csrf_exempt
 def excluir_carro(request, id):
     try:
         carro = Carro.objects.get(id=id)
@@ -86,7 +87,7 @@ def excluir_carro(request, id):
         return redirect(reverse('clientes')+ f'?aba=att_cliente&id_cliente={id}')
     except:
         return redirect(reverse('clientes')+ f'?aba=att_cliente&id_cliente={id}')
-
+@csrf_exempt
 def update_cliente(request, id):
     body = json.loads(request.body)
 
