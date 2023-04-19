@@ -1,6 +1,14 @@
 
 from pathlib import Path
 import os
+import dj_database_url
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+DATABASES = {
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+}
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,9 +44,9 @@ CSRF_TRUSTED_ORIGINS = ['https://carwash-app-production.up.railway.app']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -139,16 +147,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-""" STATIC_URL = 'static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates/static/'),)
+STATIC_URL = 'static/'
+""" STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates/static/'),)
 STATIC_ROOT = os.path.join('static') """
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'templates/static/')]
+STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "templates/static/")
-]
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
