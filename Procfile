@@ -1,4 +1,4 @@
-web: python manage.py migrate && gunicorn carwash.wsgi 
+web: gunicorn carwash.wsgi --log_file -
 
 
 
