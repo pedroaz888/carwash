@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Projetos_phyton_vscode\carwash\venv"
+VIRTUAL_ENV="C:\Projetos_phyton_vscode\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
