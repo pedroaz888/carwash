@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'servicos',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://clientes-app-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://carwash-app-production.up.railway.app']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
