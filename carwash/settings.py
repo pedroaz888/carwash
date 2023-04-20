@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'servicos',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https:/carwash-production-b912.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://carwash-production-b912.up.railway.app']
 
 
 MIDDLEWARE = [
