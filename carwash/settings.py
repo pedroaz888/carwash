@@ -1,16 +1,6 @@
 
 from pathlib import Path
 import os
-import dj_database_url
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-DATABASES = {
-    "default": dj_database_url.config(
-        default="postgres://postgres:saleor@localhost:5432/saleor", conn_max_age=600
-    )
-}
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -112,9 +102,6 @@ DATABASES = {
     }
 } 
 
-DATABASES['default'] = dj_database_url.config()
-
-
 
 
 # Password validation
@@ -152,13 +139,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-""" STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates/static/'),)
-STATIC_ROOT = os.path.join('static') """
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'templates/static/')]
 STATIC_ROOT =os.path.join(BASE_DIR, 'staticfiles')
-
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
