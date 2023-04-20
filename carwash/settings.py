@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'servicos',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://carwash-app-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https:/carwash-production-b912.up.railway.app']
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,7 +88,6 @@ WSGI_APPLICATION = 'carwash.wsgi.application'
         
     }
 }  """
-
 
 
 DATABASES = {
