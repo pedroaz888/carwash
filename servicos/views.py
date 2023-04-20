@@ -21,14 +21,14 @@ def novo_servico(request):
 def listar_servico(request):
     if request.method == "GET":
         servicos = Servico.objects.all()
-        return render (request, 'listar_servico.html', {'servicos': servicos})
+        return render(request, 'listar_servico.html', {'servicos': servicos})
     
 def servico(request, identificador):
-    servico = get_object_or_404 (Servico, identificador=identificador)
+    servico = get_object_or_404(Servico, identificador=identificador)
     return render(request, 'servico.html', {'servico': servico})
 
 def gerar_os(request, identificador):
-    servico = get_object_or_404(Servico, identificador=identificador)
+    servico=get_object_or_404(Servico, identificador=identificador)
 
     pdf = FPDF()
     pdf.add_page()

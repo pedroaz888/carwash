@@ -4,11 +4,10 @@ from .models import Carro, Cliente
 import re
 from django.core import serializers
 import json
-from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.shortcuts import redirect, get_object_or_404
 
-@csrf_exempt
+
 def clientes(request):
     if request.method == "GET":
         clientes_list = Cliente.objects.all()
@@ -25,16 +24,18 @@ def clientes(request):
         cliente = Cliente.objects.filter(cpf=cpf)
 
         if cliente.exists():
-            return render(request, 'clientes.html', {'nome':nome, 'sobrenome':sobrenome, 'email':email, 'carros':zip(carros, placas, anos)})
-        
+            return render(request, 'clientes.html',
+                          {'nome': nome, 'sobrenome': sobrenome, 'email': email, 'carros': zip(carros, placas, anos)})
+
         if not re.fullmatch(re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'), email):
-            return render(request, 'clientes.html', {'nome':nome, 'sobrenome':sobrenome, 'cpf':cpf, 'carros':zip(carros, placas, anos)})
+            return render(request, 'clientes.html',
+                          {'nome': nome, 'sobrenome': sobrenome, 'cpf': cpf, 'carros': zip(carros, placas, anos)})
 
         cliente = Cliente(
-            nome = nome,
-            sobrenome = sobrenome,
-            email = email,
-            cpf = cpf
+            nome=nome,
+            sobrenome=sobrenome,
+            email=email,
+            cpf=cpf
         )
         cliente.save()
 
@@ -43,51 +44,53 @@ def clientes(request):
             carro.save()
 
         return HttpResponse('teste')
-@csrf_exempt
+
+
 def att_cliente(request):
     id_cliente = request.POST.get('id_cliente')
 
     cliente = Cliente.objects.filter(id=id_cliente)
     carros = Carro.objects.filter(cliente=cliente[0])
-    
-#---------------------------------acessar a posição [0] para filtrar através do id
+
+    # ---------------------------------acessar a posição [0] para filtrar através do id
     cliente_id = json.loads(serializers.serialize('json', cliente))[0]['pk']
     clientes_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
     carros_json = json.loads(serializers.serialize('json', carros))
 
-    carros_json = [{'fields':carro['fields'], 'id':carro['pk']}for carro in carros_json]
-    data = {'cliente':clientes_json, 'carros': carros_json, 'cliente_id':cliente_id}
+    carros_json = [{'fields': carro['fields'], 'id': carro['pk']} for carro in carros_json]
+    data = {'cliente': clientes_json, 'carros': carros_json, 'cliente_id': cliente_id}
 
-    return JsonResponse(data) 
+    return JsonResponse(data)
 
- #------------------------------para o esse formulário carro o csrftoken está isento ----------------------------------------
-@csrf_exempt
+    # ------------------------------para o esse formulário carro o csrftoken está isento ----------------------------------------
+
+
 def update_carro(request, id):
     nome_carro = request.POST.get('carro')
     placa = request.POST.get('placa')
     ano = request.POST.get('ano')
 
-
     carro = Carro.objects.get(id=id)
     list_carros = Carro.objects.filter(placa=placa).exclude(id=id)
     if list_carros.exists():
-        return HttpResponse('Placa já existente') 
-    
+        return HttpResponse('Placa já existente')
+
     carro.carro = nome_carro
     carro.placa = placa
     carro.ano = ano
     carro.save()
     return HttpResponse("Dados alterados com sucesso")
 
-@csrf_exempt
+
 def excluir_carro(request, id):
     try:
         carro = Carro.objects.get(id=id)
         carro.delete()
-        return redirect(reverse('clientes')+ f'?aba=att_cliente&id_cliente={id}')
+        return redirect(reverse('clientes') + f'?aba=att_cliente&id_cliente={id}')
     except:
-        return redirect(reverse('clientes')+ f'?aba=att_cliente&id_cliente={id}')
-@csrf_exempt
+        return redirect(reverse('clientes') + f'?aba=att_cliente&id_cliente={id}')
+
+
 def update_cliente(request, id):
     body = json.loads(request.body)
 
@@ -110,5 +113,3 @@ def update_cliente(request, id):
         return JsonResponse({'status': '200', 'nome': nome, 'sobrenome': sobrenome, 'email': email, 'cpf': cpf})
     except:
         return JsonResponse({'status': '500'})
-
-    
