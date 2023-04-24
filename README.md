@@ -1,5 +1,5 @@
 # Carwash
-> app em desenvolvimento
+> app em desenvolvimento...
 
 É um app de cadastro de clientes com mais de um carro com serviços de mecânica</br>
 linkando os clientes aos seus respectivos carros e serviços que foram adicionados.
