@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import Carro, Cliente
 import re
 from django.core import serializers
@@ -48,23 +50,26 @@ def clientes(request):
 
 def att_cliente(request):
     id_cliente = request.POST.get('id_cliente')
-
     cliente = Cliente.objects.filter(id=id_cliente)
     carros = Carro.objects.filter(cliente=cliente[0])
-
-    # ---------------------------------acessar a posição [0] para filtrar através do id
+    cliente_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
     cliente_id = json.loads(serializers.serialize('json', cliente))[0]['pk']
-    clientes_json = json.loads(serializers.serialize('json', cliente))[0]['fields']
     carros_json = json.loads(serializers.serialize('json', carros))
-
-    carros_json = [{'fields': carro['fields'], 'id': carro['pk']} for carro in carros_json]
-    data = {'cliente': clientes_json, 'carros': carros_json, 'cliente_id': cliente_id}
-
+    carros_json = [{'fields': i['fields'], 'id': i['pk']} for i in carros_json]
+    data = {'cliente': cliente_json, 'carros': carros_json, 'cliente_id': cliente_id}
     return JsonResponse(data)
+
+def excluir_carro(request, id):
+    try:
+        carro = Carro.objects.get(id=id)
+        carro.delete()
+        return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}')
+    except:
+        return redirect(reverse('clientes')+f'?aba=att_cliente&id_cliente={id}')
 
     # ------------------------------para o esse formulário carro o csrftoken está isento ----------------------------------------
 
-
+@csrf_exempt
 def update_carro(request, id):
     nome_carro = request.POST.get('carro')
     placa = request.POST.get('placa')
